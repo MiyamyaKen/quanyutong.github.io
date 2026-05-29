@@ -406,12 +406,18 @@
                 </div>
                 <div class="contact-form">
                     <h3 data-i18n="contact.sendMessage">发送消息</h3>
-                    <form>
-                        <input type="text" data-i18n-placeholder="contact.yourName" placeholder="您的姓名" required>
-                        <input type="email" data-i18n-placeholder="contact.yourEmail" placeholder="您的邮箱" required>
-                        <textarea data-i18n-placeholder="contact.yourMessage" placeholder="您的消息" rows="5" required></textarea>
-                        <button type="submit" class="btn btn-primary" data-i18n="contact.send">发送消息</button>
-                    </form>
+                    <p style="color: #666; margin-bottom: 1.5rem; text-align: center;">
+                        点击下方按钮填写联系表单,我会尽快回复您
+                    </p>
+                    <div style="text-align: center;">
+                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdIn8sgknq6Q6yjhLM5X9XRgIc6zQzG8TtWnw71mh29azsUnw/viewform" target="_blank" class="btn btn-primary" style="display: inline-block; text-decoration: none;">
+                            📝 打开联系表单
+                        </a>
+                    </div>
+                    <p style="color: #999; font-size: 0.9rem; margin-top: 1rem; text-align: center;">
+                        或直接发送邮件至: <strong style="color: #667eea; cursor: pointer;" onclick="copyEmail()">kensherl0818@gmail.com</strong>
+                        <span id="copyHint" style="color: #4facfe; margin-left: 0.5rem; display: none;">✓ 已复制</span>
+                    </p>
                 </div>
             </div>
         </div>

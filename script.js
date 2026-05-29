@@ -119,40 +119,21 @@ function fadeInElements() {
     });
 }
 
-// ==================== 表单处理 ====================
-const contactForm = document.querySelector('.contact-form form');
-
-if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // 获取表单数据
-        const formData = new FormData(contactForm);
-        const name = contactForm.querySelector('input[type="text"]').value;
-        const email = contactForm.querySelector('input[type="email"]').value;
-        const message = contactForm.querySelector('textarea').value;
-
-        // 验证表单
-        if (!name || !email || !message) {
-            showNotification('请填写所有字段', 'error');
-            return;
+// ==================== 复制邮箱功能 ====================
+function copyEmail() {
+    const email = 'kensherl0818@gmail.com';
+    navigator.clipboard.writeText(email).then(() => {
+        showNotification('邮箱地址已复制到剪贴板！', 'success');
+        const hint = document.getElementById('copyHint');
+        if (hint) {
+            hint.style.display = 'inline';
+            setTimeout(() => {
+                hint.style.display = 'none';
+            }, 2000);
         }
-
-        if (!validateEmail(email)) {
-            showNotification('请输入有效的邮箱地址', 'error');
-            return;
-        }
-
-        // 模拟发送消息
-        showNotification('消息发送成功！我会尽快回复您。', 'success');
-        contactForm.reset();
+    }).catch(() => {
+        showNotification('复制失败，请手动复制', 'error');
     });
-}
-
-// 邮箱验证
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
 }
 
 // 显示通知
