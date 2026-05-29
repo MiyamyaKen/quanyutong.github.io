@@ -215,53 +215,47 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// ==================== 鼠标跟随效果 ====================
+// ==================== 鼠标跟随效果 - 发光光晕 ====================
 function createCursor() {
     const cursor = document.createElement('div');
     cursor.className = 'custom-cursor';
     cursor.style.cssText = `
-        width: 20px;
-        height: 20px;
-        border: 2px solid #667eea;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         position: fixed;
         pointer-events: none;
         z-index: 9999;
-        transition: transform 0.2s ease;
+        background: radial-gradient(circle, rgba(102, 126, 234, 0.6) 0%, rgba(118, 75, 162, 0.3) 40%, transparent 70%);
+        transform: translate(-50%, -50%);
+        transition: width 0.3s ease, height 0.3s ease;
         display: none;
     `;
     document.body.appendChild(cursor);
 
     let mouseX = 0;
     let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
 
     document.addEventListener('mousemove', (e) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
         cursor.style.display = 'block';
+        cursor.style.left = mouseX + 'px';
+        cursor.style.top = mouseY + 'px';
     });
 
-    function animate() {
-        cursorX += (mouseX - cursorX) * 0.1;
-        cursorY += (mouseY - cursorY) * 0.1;
-        cursor.style.left = cursorX - 10 + 'px';
-        cursor.style.top = cursorY - 10 + 'px';
-        requestAnimationFrame(animate);
-    }
-    animate();
-
-    // 悬停在可点击元素上时放大光标
-    const clickableElements = document.querySelectorAll('a, button, .hobby-card, .skill-category');
+    // 悬停在可点击元素上时放大光晕
+    const clickableElements = document.querySelectorAll('a, button, .hobby-card, .skill-category, .resume-item, .achievement-card, .contact-item');
     clickableElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
-            cursor.style.transform = 'scale(1.5)';
-            cursor.style.borderColor = '#f093fb';
+            cursor.style.width = '70px';
+            cursor.style.height = '70px';
+            cursor.style.background = 'radial-gradient(circle, rgba(240, 147, 251, 0.7) 0%, rgba(245, 87, 108, 0.4) 40%, transparent 70%)';
         });
         element.addEventListener('mouseleave', () => {
-            cursor.style.transform = 'scale(1)';
-            cursor.style.borderColor = '#667eea';
+            cursor.style.width = '50px';
+            cursor.style.height = '50px';
+            cursor.style.background = 'radial-gradient(circle, rgba(102, 126, 234, 0.6) 0%, rgba(118, 75, 162, 0.3) 40%, transparent 70%)';
         });
     });
 }
