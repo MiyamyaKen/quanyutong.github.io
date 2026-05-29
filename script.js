@@ -465,7 +465,7 @@ function activateEasterEgg() {
     for (let i = 0; i < 50; i++) {
         createConfetti();
     }
-    showNotification('🎉 恭喜你发现了彩蛋！', 'success');
+    showNotification(translations[currentLanguage]['notification.easterEgg'], 'success');
 }
 
 function createConfetti() {
@@ -500,6 +500,9 @@ function createConfetti() {
 
 // ==================== 初始化所有功能 ====================
 document.addEventListener('DOMContentLoaded', () => {
+    // 首先初始化语言
+    initLanguage();
+    
     showLoadingAnimation();
     animateNumbers();
     animateSkillBars();
@@ -510,6 +513,22 @@ document.addEventListener('DOMContentLoaded', () => {
     createThemeToggle();
     createBackToTop();
     konamiCode();
+    
+    // 绑定语言切换按钮
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            setLanguage(lang);
+            
+            // 显示切换成功通知
+            const langNames = {
+                'zh-CN': '中文',
+                'ja': '日本語',
+                'en': 'English'
+            };
+            showNotification(`语言已切换为 ${langNames[lang]}`, 'success');
+        });
+    });
 });
 
 // ==================== 性能优化：防抖函数 ====================
@@ -536,3 +555,52 @@ console.log('🎨 个人主页已加载完成！');
 console.log('💡 提示：尝试输入 Konami 代码（↑↑↓↓←→←→BA）来发现彩蛋！');
 
 // Made with Bob
+
+// ==================== 多语言功能 ====================
+let currentLanguage = localStorage.getItem('language') || 'zh-CN';
+
+// 初始化语言
+function initLanguage() {
+    setLanguage(currentLanguage);
+    updateActiveLanguageButton();
+}
+
+// 设置语言
+function setLanguage(lang) {
+    currentLanguage = lang;
+    localStorage.setItem('language', lang);
+    
+    // 更新所有带有 data-i18n 属性的元素
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            element.textContent = translations[lang][key];
+        }
+    });
+    
+    // 更新 placeholder 属性
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+        const key = element.getAttribute('data-i18n-placeholder');
+        if (translations[lang] && translations[lang][key]) {
+            element.placeholder = translations[lang][key];
+        }
+    });
+    
+    // 更新 HTML lang 属性
+    document.documentElement.lang = lang;
+    
+    // 更新按钮状态
+    updateActiveLanguageButton();
+}
+
+// 更新语言按钮的激活状态
+function updateActiveLanguageButton() {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.getAttribute('data-lang') === currentLanguage) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+}
+
