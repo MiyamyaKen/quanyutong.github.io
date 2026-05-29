@@ -500,26 +500,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ==================== 性能优化：防抖函数 ====================
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// 优化滚动事件
-const optimizedScroll = debounce(() => {
-    // 滚动相关的操作
-}, 10);
-
-window.addEventListener('scroll', optimizedScroll);
-
 console.log('🎨 个人主页已加载完成！');
 console.log('💡 提示：尝试输入 Konami 代码（↑↑↓↓←→←→BA）来发现彩蛋！');
 
